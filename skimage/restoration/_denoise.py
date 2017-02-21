@@ -122,6 +122,10 @@ def denoise_bilateral(image, win_size=None, sigma_color=None, sigma_spatial=1,
     if win_size is None:
         win_size = max(5, 2 * int(ceil(3 * sigma_spatial)) + 1)
 
+    # constant images do not need denoising
+    if image.min() == image.max():
+        return image
+
     return _denoise_bilateral(image, win_size, sigma_color, sigma_spatial,
                               bins, mode, cval)
 
